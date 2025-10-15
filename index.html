@@ -97,41 +97,43 @@
     </form>
   </div>
 
-  <!-- ✅ SDK EmailJS -->
-  <script src="https://cdn.emailjs.com/sdk/3.11.0/email.min.js" defer></script>
-  <script defer>
-    document.addEventListener("DOMContentLoaded", function () {
-      // Espera a que EmailJS esté disponible
-      if (typeof emailjs === "undefined") {
-        console.error("❌ EmailJS SDK no se cargó correctamente.");
-        return;
-      }
+  <!-- ✅ SDK EmailJS actualizado -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Espera a que EmailJS esté disponible
+    if (typeof emailjs === "undefined") {
+      console.error("❌ EmailJS SDK no se cargó correctamente (versión jsDelivr).");
+      return;
+    }
 
-      // Inicializa EmailJS con tu clave pública
-      emailjs.init("XwKAz-6miwjRCNBcd");
+    // Inicializa EmailJS con tu clave pública
+    emailjs.init("XwKAz-6miwjRCNBcd");
 
-      const form = document.getElementById("pedidoForm");
-      const status = document.getElementById("status");
+    const form = document.getElementById("pedidoForm");
+    const status = document.getElementById("status");
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        status.textContent = "Enviando pedido...";
-        status.className = "status";
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      status.textContent = "Enviando pedido...";
+      status.className = "status";
 
-        emailjs.sendForm("service_internathntop", "template_azzq94f", this)
-          .then(() => {
-            status.textContent = "✅ Pedido enviado correctamente. ¡Gracias por tu compra!";
-            status.className = "status ok";
-            form.reset();
-          })
-          .catch(err => {
-            console.error("Error detallado:", err);
-            alert("Error: " + JSON.stringify(err));
-            status.textContent = "❌ Error al enviar el pedido. Intenta nuevamente.";
-            status.className = "status err";
-          });
-      });
+      emailjs.sendForm("service_internathntop", "template_azzq94f", this)
+        .then(() => {
+          status.textContent = "✅ Pedido enviado correctamente. ¡Gracias por tu compra!";
+          status.className = "status ok";
+          form.reset();
+        })
+        .catch(err => {
+          console.error("Error detallado:", err);
+          alert("Error: " + JSON.stringify(err));
+          status.textContent = "❌ Error al enviar el pedido. Intenta nuevamente.";
+          status.className = "status err";
+        });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
+
