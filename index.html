@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido | International Items</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #eef3ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .form-box {
+      background: #fff;
+      padding: 2.2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 430px;
+    }
+    h2 {
+      text-align: center;
+      color: #0b3b84;
+      margin-bottom: 1.4rem;
+    }
+    label {
+      display: block;
+      margin-bottom: .3rem;
+      font-weight: 500;
+      color: #333;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: .8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border .2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #0b3b84;
+      outline: none;
+    }
+    textarea {
+      resize: none;
+      height: 100px;
+    }
+    button {
+      background: #0b3b84;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #164ba7;
+      transform: scale(1.03);
+    }
+    .status {
+      text-align: center;
+      font-weight: 500;
+      margin-top: 1rem;
+    }
+    .ok { color: #22bb33; }
+    .err { color: #d11a2a; }
+  </style>
+</head>
+<body>
+
+  <div class="form-box">
+    <h2>🛒 Nuevo pedido</h2>
+    <form id="pedidoForm">
+      <label>Nombre del cliente*</label>
+      <input type="text" name="nombre" placeholder="Ej: Carlos López" required>
+
+      <label>WhatsApp / Teléfono*</label>
+      <input type="text" name="telefono" placeholder="Ej: +504 9876-5432" required>
+
+      <label>Dirección*</label>
+      <input type="text" name="direccion" placeholder="Ej: Col. Loarque, calle 3, casa 45" required>
+
+      <label>Comentario</label>
+      <textarea name="comentario" placeholder="Notas adicionales (opcional)"></textarea>
+
+      <label>Productos solicitados*</label>
+      <textarea name="pedido" placeholder="Ej: 1 Cámara WiFi, 1 Powerbank 20000mAh" required></textarea>
+
+      <button type="submit">Enviar pedido ✉️</button>
+      <div id="status" class="status"></div>
+    </form>
+  </div>
+
+  <!-- ✅ SDK EmailJS -->
+  <script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+  <script>
+    (function(){
+      // Inicializa EmailJS con tu Public Key real
+      emailjs.init("XwKAz-6miwjRCNBcd");
+    })();
+
+    const form = document.getElementById("pedidoForm");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      status.textContent = "Enviando pedido...";
+      status.className = "status";
+
+      emailjs.sendForm("service_internathntop", "template_azzq94f", this)
+        .then(() => {
+          status.textContent = "✅ Pedido enviado correctamente. ¡Gracias por tu compra!";
+          status.className = "status ok";
+          form.reset();
+        })
+        .catch(err => {
+          console.error(err);
+          status.textContent = "❌ Error al enviar el pedido. Intenta nuevamente.";
+          status.className = "status err";
+        });
+    });
+  </script>
+</body>
+</html>
